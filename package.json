@@ -1,0 +1,20 @@
+{
+  "name": "wild-horizons",
+  "version": "1.0.0",
+  "description": "a dataset of the planet’s most interesting places",
+  "homepage": "https://github.com/Indrawan-maker/world-horizons-backend#readme",
+  "bugs": {
+    "url": "https://github.com/Indrawan-maker/world-horizons-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Indrawan-maker/world-horizons-backend.git"
+  },
+  "license": "ISC",
+  "author": "Indrawan",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
