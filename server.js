@@ -7,15 +7,15 @@ const PORT = 8000
     
     const server = http.createServer( async (req, res) => {
         if (req.url === '/api' && req.method === 'GET') {
-            try{
                 const destination = JSON.stringify(await getDataFromDB())
                 res.setHeader("Content-Type", "application/json")
+                res.statusCode = 200
                 res.end(destination)
                 console.log(destination)
-            }
-            catch (err) {
-                console.log(err)
-            }
+        } else {
+            res.setHeader("Content-Type", "application/json")
+            res.statusCode = 404
+            res.end(JSON.stringify({error: "not found", message: "The requested route does not exist"}))
         }
     })
 
