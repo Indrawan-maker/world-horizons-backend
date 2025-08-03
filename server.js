@@ -20,7 +20,16 @@ const PORT = 8000
 
             sendJSON(res, 200, filteredData)
 
-        }else {
+        }
+        else if(req.url.startsWith('/api/country') && req.method === 'GET') {
+            const country = req.url.split('/').pop()
+            console.log(country)
+            const filteredCoountry = destination.filter((destinationItem) => {
+                return destinationItem.country.toLowerCase() === country.toLowerCase()
+            })
+            sendJSON(res, 200, filteredCoountry)
+        }
+        else {
             sendJSON(res, 404, {
                 error: "not found",
                 message: "The request route does not exist"
