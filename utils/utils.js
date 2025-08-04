@@ -1,6 +1,13 @@
 
-export function sendJSON(res, statusCode, data) {
+export const sendJSONResponse = (res, statusCode, data) => {
     res.setHeader('Content-Type', 'application/json')
     res.statusCode = statusCode
     res.end(JSON.stringify(data))
 }
+
+
+export const sendJSONRequest = (req, url, method) => {
+return req.url === url && req.method === method
+}
+
+
