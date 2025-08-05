@@ -6,8 +6,10 @@ export const sendJSONResponse = (res, statusCode, data) => {
 }
 
 
-export const sendJSONRequest = (req, url, method) => {
-return req.url === url && req.method === method
+export const filteredDestination = (destination, destinationType, value) => {
+    const resultDestination = destination.filter((destinationObj => {
+        return destinationObj[destinationType].toLowerCase() === value.toLowerCase()
+    }))
+    return resultDestination
 }
-
 

@@ -1,6 +1,6 @@
 import http from "node:http"
 import { getDataFromDB } from "./database/db.js"
-import  { sendJSONResponse, sendJSONRequest }  from "./utils/utils.js"
+import  { sendJSONResponse, filteredDestination }  from "./utils/utils.js"
 
 const PORT = 8000
 
@@ -9,25 +9,20 @@ const PORT = 8000
     const server = http.createServer( async (req, res) => {
         const destination = await getDataFromDB()
 
-        if (sendJSONRequest(req, '/api', 'GET')) {
+        if(req.url === '/api' && req.method === 'GET') {
             sendJSONResponse(res, 200, destination)
-        } else if(sendJSONRequest(req, startsWith('/api/continent'), 'GET')) {
+
+        } else if(req.url.startsWith('/api/continent') && req.method === 'GET') {
             const continent = req.url.split("/").pop()
-
-            const filteredData = destination.filter((destinationItem) => {
-                return destinationItem.continent.toLowerCase() === continent.toLowerCase()
-            })
-
+            const filteredData = filteredDestination(destination, 'continent', continent)
             sendJSONResponse(res, 200, filteredData)
 
         }
-        else if(sendJSONRequest(req, startsWith('/api/country'), 'GET')) {
+        else if(req.url.startsWith('/api/country') && req.method === 'GET') {
             const country = req.url.split('/').pop()
             console.log(country)
-            const filteredCoountry = destination.filter((destinationItem) => {
-                return destinationItem.country.toLowerCase() === country.toLowerCase()
-            })
-            sendJSONResponse(res, 200, filteredCoountry)
+            const filteredData = filteredDestination(destination, 'country', country)
+            sendJSONResponse(res, 200, filteredData)
         }
         else {
             sendJSONResponse(res, 404, {
