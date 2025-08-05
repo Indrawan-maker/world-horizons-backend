@@ -2,9 +2,8 @@ import http from "node:http"
 import { getDataFromDB } from "./database/db.js"
 import  { sendJSONResponse, filteredDestination }  from "./utils/utils.js"
 
+
 const PORT = 8000
-
-
 
     const server = http.createServer( async (req, res) => {
         const destination = await getDataFromDB()
