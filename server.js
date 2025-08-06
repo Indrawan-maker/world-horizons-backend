@@ -5,8 +5,12 @@ import  { sendJSONResponse, filteredDestination }  from "./utils/utils.js"
 
 const PORT = 8000
 
-    const server = http.createServer( async (req, res) => {
-        const destination = await getDataFromDB()
+
+const server = http.createServer( async (req, res) => {
+    const destination = await getDataFromDB()
+    const urlObj = req.header.host
+
+    console.log(urlObj)
 
         if(req.url === '/api' && req.method === 'GET') {
             sendJSONResponse(res, 200, destination)
