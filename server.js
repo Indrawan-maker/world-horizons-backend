@@ -1,49 +1,54 @@
 import http from "node:http"
 import { getDataFromDB } from "./database/db.js"
-import { sendJSONResponse, filteredDestination } from "./utils/utils.js"
+import { sendJSONResponse } from "./utils/sendJSONResponse.js"
+// import { getDataByQueryParams } from "./utils/getDataByQueryParams.js"
+import { getDataByPathParams } from "./utils/getDataByPathParams.js"
 
 
 const PORT = 8000
 
 
 const server = http.createServer(async (req, res) => {
+
+
     const destination = await getDataFromDB()
-    /*
-    Challenge:
-    1. Complete the two lines of code below.
-        hint.md for help!
-*/
 
-    const urlObj = new URL(req.url, `http://${req.headers.host}`)// Use the URL constructor and pass in the relative and base urls.
+    const urlObj = new URL(req.url, `http://${req.headers.host}`)
+
+
+    const queryObj = Object.fromEntries(urlObj.searchParams)
     console.log(urlObj)
-    console.log(urlObj.pathname)
-    console.log(urlObj.search)
-
-    console.log(urlObj.pathname + urlObj.search)
-
-    const queryObj = Object.fromEntries(urlObj.searchParams)// Use the fromEntries() method on the Object class .
-    // What do you need to pass in? 
     console.log(queryObj)
     
-    
+    //   1. Update filteredData so it holds only the objects the client wants 
+    //  based on query params. If the client doesn’t use any query params, 
+    //  serve all of the data.
+    //  The query params we are accepting are:
+    //  'country', 'continent', and 'is_open_to_public'.
+
+    //  Keep our code tidy by doing the the filtering in a util function.
     
     if (urlObj.pathname === '/api' && req.method === 'GET') {
-        let filteredDestination = destination
-        console.log(queryObj)
-        console.log(urlObj.pathname + urlObj.search)
-        
-        sendJSONResponse(res, 200, filteredDestination)
+
+
+        let filteredData = destination
+const isPublic = destination.is_open_to_public
+console.log(isPublic)
+        // getDataByQueryParams(queryObj.country, queryObj.continent,)
+
+
+        sendJSONResponse(res, 200, filteredData)
 
     } else if (req.url.startsWith('/api/continent') && req.method === 'GET') {
         const continent = req.url.split("/").pop()
-        const filteredData = filteredDestination(destination, 'continent', continent)
+        const filteredData = getDataByPathParams(destination, 'continent', continent)
         sendJSONResponse(res, 200, filteredData)
 
     }
     else if (req.url.startsWith('/api/country') && req.method === 'GET') {
         const country = req.url.split('/').pop()
         console.log(country)
-        const filteredData = filteredDestination(destination, 'country', country)
+        const filteredData = getDataByPathParams(destination, 'country', country)
         sendJSONResponse(res, 200, filteredData)
     }
     else {

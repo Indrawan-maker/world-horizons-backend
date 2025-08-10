@@ -1,4 +1,4 @@
-/**** front end code****/
+
 const response = await fetch("https://example.org/post", {
     method: "POST",
     body: JSON.stringify({ username: "tom_1" }),
@@ -6,4 +6,4 @@ const response = await fetch("https://example.org/post", {
         "Content-Type": "application/json",
     },
 })
-/**** ends *****/
+
