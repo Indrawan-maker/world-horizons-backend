@@ -1,7 +1,7 @@
 import http from "node:http"
 import { getDataFromDB } from "./database/db.js"
 import { sendJSONResponse } from "./utils/sendJSONResponse.js"
-// import { getDataByQueryParams } from "./utils/getDataByQueryParams.js"
+import { getDataByQueryParams } from "./utils/getDataByQueryParams.js"
 import { getDataByPathParams } from "./utils/getDataByPathParams.js"
 
 
@@ -32,9 +32,12 @@ const server = http.createServer(async (req, res) => {
 
 
         let filteredData = destination
-const isPublic = destination.is_open_to_public
-console.log(isPublic)
-        // getDataByQueryParams(queryObj.country, queryObj.continent,)
+        // console.log(filteredData)
+        const {continent, country} = queryObj
+        getDataByQueryParams(filteredData, continent || country)
+        console.log(getDataByQueryParams(filteredData, continent || country))
+        console.log(continent)
+        console.log(country)
 
 
         sendJSONResponse(res, 200, filteredData)
