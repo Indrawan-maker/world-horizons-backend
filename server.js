@@ -32,10 +32,21 @@ const server = http.createServer(async (req, res) => {
 
 
         let filteredData = destination
-        // console.log(filteredData)
         const {continent, country} = queryObj
-        getDataByQueryParams(filteredData, continent || country)
-        console.log(getDataByQueryParams(filteredData, continent || country))
+
+        if(continent) {
+            filteredData = destination.filter(desObj => 
+                desObj.continent.toLowerCase() === continent.toLowerCase()
+            )
+        }
+
+        if(country) {
+            filteredData = destination.filter(desObj => {
+                desObj.country.toLowerCase() === country.toLowerCase()
+            })
+        }
+        getDataByQueryParams(filteredData, )
+
         console.log(continent)
         console.log(country)
 
