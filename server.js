@@ -17,38 +17,14 @@ const server = http.createServer(async (req, res) => {
 
 
     const queryObj = Object.fromEntries(urlObj.searchParams)
-    console.log(urlObj)
     console.log(queryObj)
     
-    //   1. Update filteredData so it holds only the objects the client wants 
-    //  based on query params. If the client doesn’t use any query params, 
-    //  serve all of the data.
-    //  The query params we are accepting are:
-    //  'country', 'continent', and 'is_open_to_public'.
 
-    //  Keep our code tidy by doing the the filtering in a util function.
-    
     if (urlObj.pathname === '/api' && req.method === 'GET') {
 
 
-        let filteredData = destination
-        const {continent, country} = queryObj
+        let filteredData = getDataByQueryParams(destination, queryObj)
 
-        if(continent) {
-            filteredData = destination.filter(desObj => 
-                desObj.continent.toLowerCase() === continent.toLowerCase()
-            )
-        }
-
-        if(country) {
-            filteredData = destination.filter(desObj => {
-                desObj.country.toLowerCase() === country.toLowerCase()
-            })
-        }
-        getDataByQueryParams(filteredData, )
-
-        console.log(continent)
-        console.log(country)
 
 
         sendJSONResponse(res, 200, filteredData)
